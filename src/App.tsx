@@ -24,7 +24,7 @@ function App() {
         {/*Public Routes */}
         <Route element={<SignIn />} path="/sign-in" />
         <Route element={<Unauthorized />} path="/unauthorized" />
-        <Route element={<PageNotFound />} path="/*" />
+        <Route element={<PageNotFound />} path="*" />
         <Route element={<AboutPage />} path="/about" />
 
         {/*Protect homepage */}
