@@ -21,12 +21,11 @@ function App() {
   return (
     <Routes>
       {/*Public Routes */}
+      <Route element={<IndexPage />} path="/" />
       <Route element={<SignIn />} path="/sign-in" />
       <Route element={<Unauthorized />} path="/unauthorized" />
       <Route element={<PageNotFound />} path="*" />
       <Route element={<AboutPage />} path="/about" />
-
-      <Route element={<IndexPage />} path="/" />
 
       {/* Secretary routes */}
       <Route element={<SecretaryRoutes />}>
