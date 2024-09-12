@@ -16,7 +16,11 @@ export default function IndexPage() {
     )
   }
 
-  return user?.publicMetadata.role == "doctor" ? <DoctorDashboard /> :
-    user?.publicMetadata.role == "secretary" ? <SecretaryLayout> <SecretaryDashboard /> </SecretaryLayout> :
-      <Navigate to={'/sign-in'} />
+  return (
+    <div className="container">
+      {user?.publicMetadata.role == "doctor" ? <DoctorDashboard /> :
+        user?.publicMetadata.role == "secretary" ? <SecretaryLayout> <SecretaryDashboard /> </SecretaryLayout> :
+          <Navigate to={'/sign-in'} />}
+    </div>
+  )
 }
