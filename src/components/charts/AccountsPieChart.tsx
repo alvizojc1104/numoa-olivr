@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { SquareArrowOutUpRight, TrendingUp } from "lucide-react"
+import { SquareArrowOutUpRight } from "lucide-react"
 import { Label, Pie, PieChart } from "recharts"
 
 import {
