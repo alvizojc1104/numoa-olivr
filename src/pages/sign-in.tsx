@@ -2,9 +2,9 @@ import { Button, Card, CardBody, CardFooter, CardHeader, Image, Input, Link } fr
 import { title } from "../components/primitives";
 import LoginLayout from "../layouts/LoginLayout";
 import { useForm } from "react-hook-form";
-import {  useState } from "react";
-import { SignedIn, useSignIn } from "@clerk/clerk-react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useAuth, useSignIn } from "@clerk/clerk-react";
+import { useNavigate } from "react-router-dom";
 import { Bounce, Flip, ToastContainer, toast } from "react-toastify";
 import "react-toastify/ReactToastify.css"
 
@@ -22,9 +22,13 @@ const SignIn = () => {
     });
     const [loading, setLoading] = useState<boolean>(false)
     const { isLoaded, signIn, setActive } = useSignIn();
+    const { isSignedIn } = useAuth()
     const navigate = useNavigate();
 
-    if (!isLoaded) return;
+    if (isSignedIn && isLoaded) {
+        navigate("/")
+    }
+
 
     const notify = (error: string) => toast.error(error, {
         position: "bottom-right",
@@ -61,9 +65,6 @@ const SignIn = () => {
 
     return (
         <LoginLayout>
-            <SignedIn>
-                <Navigate to="/" replace />
-            </SignedIn>
             <div className="flex basis-2/3 justify-center items-center pl-20">
                 <Image
                     alt="NU MOA School of Optometry Facility"
