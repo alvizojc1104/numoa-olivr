@@ -15,14 +15,15 @@ import {
   Chip,
   User,
   Pagination,
+  Selection,
+  ChipProps,
+  SortDescriptor
 } from "@nextui-org/react";
-import { SearchIcon, VerticalDotsIcon } from "../../components/icons";
-import { columns, users, statusOptions } from "../../config/data";
-import { capitalize } from "../../lib/utils";
-import { ChevronDown} from "lucide-react";
-import CreateAccount from "../forms/CreateAccount";
+import {columns, users, statusOptions} from "@/config/data";
+import {capitalize} from "@/lib/utils";
+import { ChevronDown, PlusIcon, SearchIcon, VerticalDotsIcon } from "../icons";
 
-const statusColorMap = {
+const statusColorMap: Record<string, ChipProps["color"]> = {
   active: "success",
   paused: "danger",
   vacation: "warning",
@@ -30,16 +31,19 @@ const statusColorMap = {
 
 const INITIAL_VISIBLE_COLUMNS = ["name", "role", "status", "actions"];
 
-export default function AccountsTable() {
+type User = typeof users[0];
+
+export default function App() {
   const [filterValue, setFilterValue] = React.useState("");
-  const [selectedKeys, setSelectedKeys] = React.useState(new Set([]));
-  const [visibleColumns, setVisibleColumns] = React.useState(new Set(INITIAL_VISIBLE_COLUMNS));
-  const [statusFilter, setStatusFilter] = React.useState("all");
+  const [selectedKeys, setSelectedKeys] = React.useState<Selection>(new Set([]));
+  const [visibleColumns, setVisibleColumns] = React.useState<Selection>(new Set(INITIAL_VISIBLE_COLUMNS));
+  const [statusFilter, setStatusFilter] = React.useState<Selection>("all");
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [sortDescriptor, setSortDescriptor] = React.useState({
+  const [sortDescriptor, setSortDescriptor] = React.useState<SortDescriptor>({
     column: "age",
     direction: "ascending",
   });
+
   const [page, setPage] = React.useState(1);
 
   const hasSearchFilter = Boolean(filterValue);
@@ -65,7 +69,7 @@ export default function AccountsTable() {
     }
 
     return filteredUsers;
-  }, [users, filterValue, statusFilter]);
+  }, [hasSearchFilter, statusFilter, filterValue]);
 
   const pages = Math.ceil(filteredItems.length / rowsPerPage);
 
@@ -77,23 +81,23 @@ export default function AccountsTable() {
   }, [page, filteredItems, rowsPerPage]);
 
   const sortedItems = React.useMemo(() => {
-    return [...items].sort((a, b) => {
-      const first = a[sortDescriptor.column];
-      const second = b[sortDescriptor.column];
+    return [...items].sort((a: User, b: User) => {
+      const first = a[sortDescriptor.column as keyof User] as number;
+      const second = b[sortDescriptor.column as keyof User] as number;
       const cmp = first < second ? -1 : first > second ? 1 : 0;
 
       return sortDescriptor.direction === "descending" ? -cmp : cmp;
     });
   }, [sortDescriptor, items]);
 
-  const renderCell = React.useCallback((user, columnKey) => {
-    const cellValue = user[columnKey];
+  const renderCell = React.useCallback((user: User, columnKey: React.Key) => {
+    const cellValue = user[columnKey as keyof User];
 
     switch (columnKey) {
       case "name":
         return (
           <User
-            avatarProps={{ radius: "lg", src: user.avatar }}
+            avatarProps={{radius: "lg", src: user.avatar}}
             description={user.email}
             name={cellValue}
           >
@@ -147,12 +151,12 @@ export default function AccountsTable() {
     }
   }, [page]);
 
-  const onRowsPerPageChange = React.useCallback((e: { target: { value: number; }; }) => {
+  const onRowsPerPageChange = React.useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
     setRowsPerPage(Number(e.target.value));
     setPage(1);
   }, []);
 
-  const onSearchChange = React.useCallback((value: React.SetStateAction<string>) => {
+  const onSearchChange = React.useCallback((value?: string) => {
     if (value) {
       setFilterValue(value);
       setPage(1);
@@ -161,10 +165,10 @@ export default function AccountsTable() {
     }
   }, []);
 
-  const onClear = React.useCallback(() => {
+  const onClear = React.useCallback(()=>{
     setFilterValue("")
     setPage(1)
-  }, [])
+  },[])
 
   const topContent = React.useMemo(() => {
     return (
@@ -222,7 +226,9 @@ export default function AccountsTable() {
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <CreateAccount />
+            <Button color="primary" endContent={<PlusIcon />}>
+              Add New
+            </Button>
           </div>
         </div>
         <div className="flex justify-between items-center">
@@ -270,7 +276,7 @@ export default function AccountsTable() {
         </div>
       </div>
     );
-  }, [selectedKeys, items.length, page, pages, hasSearchFilter]);
+  }, [selectedKeys, filteredItems.length, page, pages, onPreviousPage, onNextPage]);
 
   return (
     <Table

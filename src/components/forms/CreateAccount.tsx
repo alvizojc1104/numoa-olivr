@@ -40,7 +40,7 @@ interface AccountRequirements {
     firstName: string;
     middleName: string;
     lastName: string;
-    birthdate: Date
+    birthdate: Date | DateValue | null
     gender: string;
     role: string
 }
@@ -66,7 +66,7 @@ export default function CreateAccount() {
             firstName: "",
             middleName: "",
             lastName: "",
-            birthdate: "",
+            birthdate: null,
             gender: "",
             role: ""
         },

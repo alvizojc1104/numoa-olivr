@@ -51,7 +51,7 @@ export function AccountsPieChart() {
     return chartData.reduce((acc, curr) => acc + curr.visitors, 0)
   }, [])
 
-  const { isLoaded, user } = useUser()
+  const { isLoaded } = useUser()
 
   if (!isLoaded) return
 
