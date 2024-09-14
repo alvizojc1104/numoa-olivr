@@ -3,10 +3,9 @@ import { title } from "../components/primitives";
 import LoginLayout from "../layouts/LoginLayout";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import { useAuth, useSignIn } from "@clerk/clerk-react";
-import { useNavigate } from "react-router-dom";
-import { Bounce, Flip, ToastContainer, toast } from "react-toastify";
-import "react-toastify/ReactToastify.css"
+import { SignedIn, useSignIn } from "@clerk/clerk-react";
+import { Navigate, useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 interface Account {
     emailAddress: string,
@@ -22,25 +21,9 @@ const SignIn = () => {
     });
     const [loading, setLoading] = useState<boolean>(false)
     const { isLoaded, signIn, setActive } = useSignIn();
-    const { isSignedIn } = useAuth()
     const navigate = useNavigate();
 
-    if (isSignedIn && isLoaded) {
-        navigate("/")
-    }
-
-
-    const notify = (error: string) => toast.error(error, {
-        position: "bottom-right",
-        autoClose: 3000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: 0,
-        theme: "colored",
-        transition: Bounce,
-    });
+    if (!isLoaded) return <div></div>
 
 
     const onSubmit = async (data: Account) => {
@@ -57,7 +40,7 @@ const SignIn = () => {
             navigate("/")
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
-            notify(error.errors[0].message);
+            toast.error(error.errors[0].message);
             console.log(error);
             setLoading(false);
         }
@@ -65,6 +48,9 @@ const SignIn = () => {
 
     return (
         <LoginLayout>
+            <SignedIn>
+                <Navigate to={`/`} />
+            </SignedIn>
             <div className="flex basis-2/3 justify-center items-center pl-20">
                 <Image
                     alt="NU MOA School of Optometry Facility"
@@ -126,20 +112,6 @@ const SignIn = () => {
                     </Card>
                 </form>
             </div>
-            <ToastContainer
-                position="bottom-right"
-                autoClose={3000}
-                limit={3}
-                hideProgressBar
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="colored"
-                transition={Flip}
-            />
         </LoginLayout>
     );
 };

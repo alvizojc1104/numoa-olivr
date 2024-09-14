@@ -2,14 +2,16 @@ import { Route, Routes } from "react-router-dom";
 
 import IndexPage from "./pages/index";
 import AboutPage from "./pages/about";
-import { useUser } from "@clerk/clerk-react";
+import { SignedIn, useUser } from "@clerk/clerk-react";
 import PageNotFound from "./pages/page-not-found";
 import SignIn from "./pages/sign-in";
 import Unauthorized from "./pages/unauthorized";
-import SecretaryDashboard from "./pages/secretary/secretary-dashboard";
 import SecretaryRoutes from "./routes/SecretaryRoutes";
-import DoctorRoutes from "./routes/DoctorRoutes";
-import DoctorDashboard from "./pages/doctor/doctor-dashboard";
+import CreateAccount from "./pages/secretary/create-account";
+import SecretaryNavbar from "./components/secretary_navbar";
+import FacultyRoutes from "./routes/FacultyRoutes";
+import FacultyDashboard from "./pages/faculty/FacultyDashboard";
+import { Toaster } from "sonner";
 
 
 
@@ -19,24 +21,30 @@ function App() {
   if (!isLoaded) return
 
   return (
-    <Routes>
-      {/*Public Routes */}
-      <Route element={<IndexPage />} path="/" />
-      <Route element={<SignIn />} path="/sign-in" />
-      <Route element={<Unauthorized />} path="/unauthorized" />
-      <Route element={<PageNotFound />} path="*" />
-      <Route element={<AboutPage />} path="/about" />
+    <>
+      <SignedIn>
+        <SecretaryNavbar />
+      </SignedIn>
+      <Routes>
+        {/*Public Routes */}
+        <Route element={<IndexPage />} path="/" />
+        <Route element={<SignIn />} path="/sign-in" />
+        <Route element={<Unauthorized />} path="/unauthorized" />
+        <Route element={<PageNotFound />} path="*" />
+        <Route element={<AboutPage />} path="/about" />
 
-      {/* Secretary routes */}
-      <Route element={<SecretaryRoutes />}>
-        <Route element={<SecretaryDashboard />} path="/secretary" />
-      </Route>
+        {/* Secretary routes */}
+        <Route element={<SecretaryRoutes />}>
+          <Route element={<CreateAccount />} path="/secretary/accounts" />
+        </Route>
 
-      {/* Doctor routes */}
-      <Route element={<DoctorRoutes />}>
-        <Route element={<DoctorDashboard />} path="/doctor" />
-      </Route>
-    </Routes>
+        {/* Doctor routes */}
+        <Route element={<FacultyRoutes />}>
+          <Route element={<FacultyDashboard />} path="/faculty" />
+        </Route>
+      </Routes>
+      <Toaster richColors position="top-center"/>
+    </>
   );
 }
 

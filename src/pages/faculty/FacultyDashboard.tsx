@@ -1,7 +1,7 @@
 import { UserButton } from "@clerk/clerk-react"
 import { title } from "../../components/primitives"
 
-const DoctorDashboard = () => {
+const FacultyDashboard = () => {
     return (
         <section className="flex flex-col items-start justify-start gap-4 px-8 w-full">
             <div className="inline-block max-w-lg text-center justify-center">
@@ -12,4 +12,4 @@ const DoctorDashboard = () => {
     )
 }
 
-export default DoctorDashboard
+export default FacultyDashboard

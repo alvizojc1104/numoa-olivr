@@ -81,84 +81,8 @@ export const siteConfig = {
       href: "/secretary/reports",
     },
     {
-      label: "Settings",
-      href: "/secretary/settings",
-    },
-    {
-      label: "Support",
-      href: "/secretary/support",
-    },
-    {
-      label: "Profile",
-      href: "/secretary/profile",
-    },
-    {
       label: "Activity Log",
       href: "/secretary/activity-log",
-    },
-    {
-      label: "Tasks",
-      href: "/secretary/tasks",
-    },
-    {
-      label: "Documents",
-      href: "/secretary/documents",
-    },
-    {
-      label: "Schedules",
-      href: "/secretary/schedules",
-    },
-    {
-      label: "Team",
-      href: "/secretary/team",
-    },
-    {
-      label: "Analytics",
-      href: "/secretary/analytics",
-    },
-    {
-      label: "Compliance",
-      href: "/secretary/compliance",
-    },
-    {
-      label: "Permissions",
-      href: "/secretary/permissions",
-    },
-    {
-      label: "Roles",
-      href: "/secretary/roles",
-    },
-    {
-      label: "Audit Trail",
-      href: "/secretary/audit-trail",
-    },
-    {
-      label: "Integrations",
-      href: "/secretary/integrations",
-    },
-    {
-      label: "Announcements",
-      href: "/secretary/announcements",
-    },
-    {
-      label: "Departments",
-      href: "/secretary/departments",
-    },
-    {
-      label: "Assets",
-      href: "/secretary/assets",
-    },
-    {
-      label: "HR",
-      href: "/secretary/hr",
-    },
-    {
-      label: "Expenses",
-      href: "/secretary/expenses",
-    },
-    {
-      label: "Security",
-      href: "/secretary/security",
     },
   ],
 };

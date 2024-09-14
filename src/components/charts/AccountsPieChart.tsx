@@ -17,7 +17,8 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart"
 import moment from "moment"
-import { Link } from "@nextui-org/react"
+import { useUser } from "@clerk/clerk-react"
+import { Link } from "react-router-dom"
 
 export const description = "A donut chart with text"
 
@@ -49,6 +50,10 @@ export function AccountsPieChart() {
   const totalVisitors = React.useMemo(() => {
     return chartData.reduce((acc, curr) => acc + curr.visitors, 0)
   }, [])
+
+  const { isLoaded, user } = useUser()
+
+  if (!isLoaded) return
 
   return (
     <Card className="min-w-fit   max-w-fit">
@@ -108,10 +113,10 @@ export function AccountsPieChart() {
       </CardContent>
       <CardFooter className="flex-col gap-2 text-sm">
         <div className="flex items-center gap-2 font-medium leading-none text-primary">
-          <Link href="#">Manage Accounts</Link> <SquareArrowOutUpRight className="h-4 w-4" />
+          <Link to='/secretary/accounts'>Manage Accounts</Link> <SquareArrowOutUpRight className="h-4 w-4" />
         </div>
         <div className="leading-none text-muted-foreground">
-            Create, update, or delete accounts.
+          Create, update, or delete accounts.
         </div>
       </CardFooter>
     </Card>

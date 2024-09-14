@@ -1,4 +1,3 @@
-import SecretaryNavbar from "../components/secretary_navbar";
 import SecretarySideBar from "../components/secretary_sidebar";
 
 export default function SecretaryLayout({
@@ -7,15 +6,18 @@ export default function SecretaryLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="relative flex flex-col h-screen">
-      <SecretaryNavbar />
-      <body className="container flex flex-row mx-auto max-w-7xl px-6 flex-grow pt-5">
-        <SecretarySideBar />
-        {/* Add margin to respect sidebar's width */}
-        <div className="ml-[250px] flex-grow h-[calc(100vh-80px)]">
+    <div className="relative flex flex-col h-screen w-screen pt-20 scrollbar-hide">
+      {/* Sidebar and content container */}
+      <div className="w-[1280px] mx-auto flex-gro px-5">
+        {/* Sidebar in fixed position */}
+        <div className="fixed min-w-fit max-w-[200px] h-full scrollbar-hide">
+          <SecretarySideBar />
+        </div>
+        {/* Main content scrollable, adjusting for sidebar's width */}
+        <div className="w-[1080] ml-[200px] flex-1 scrollbar-hide">
           {children}
         </div>
-      </body>
+      </div>
     </div>
   );
 }

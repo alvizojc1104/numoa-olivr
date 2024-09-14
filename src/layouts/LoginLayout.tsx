@@ -8,7 +8,7 @@ export default function LoginLayout({
   return (
     <div className="relative flex flex-col h-screen">
       <Navbar />
-      <main className="flex w-full h-screen justify-end">
+      <main className="flex w-full h-screen justify-end px-16">
         {children}
       </main>
     </div>

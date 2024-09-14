@@ -32,31 +32,12 @@ export default function SecretaryNavbar() {
 
   return (
     <>
-      <Navbar maxWidth="xl" position="sticky">
+      <Navbar maxWidth="full" position="sticky" className="fixed mx-auto">
         {/* Navbar Brand on the left */}
         <NavbarBrand className="max-w-fit flex items-center gap-2">
           <Logo />
           <p className="font-bold text-inherit">NUOLIVR</p>
         </NavbarBrand>
-
-        {/* Links beside the NavbarBrand */}
-        <NavbarContent className="hidden sm:flex gap-4 ml-36" justify="center">
-          <NavbarItem className="lg:flex gap-4">
-            <Input
-              classNames={{
-                base: "max-w-full  sm:w-[300px] h-10",
-                mainWrapper: "h-full",
-                input: "text-small",
-                inputWrapper: "h-full font-normal text-default-500 bg-default-400/20 dark:bg-default-500/20",
-              }}
-              placeholder="Search"
-              size="sm"
-              startContent={<SearchIcon size={18} />}
-              type="search"
-            />
-          </NavbarItem>
-        </NavbarContent>
-
         {/* ThemeSwitch on the right side */}
         <NavbarContent as="div" justify="end">
           <Dropdown>
@@ -118,11 +99,24 @@ export default function SecretaryNavbar() {
               </DropdownItem>
             </DropdownMenu>
           </Dropdown>
-
           <NavbarItem>
             <Link color="foreground" href="#">
               Notifications
             </Link>
+          </NavbarItem>
+          <NavbarItem className="lg:flex gap-4">
+            <Input
+              classNames={{
+                base: "max-w-full  sm:w-[300px] h-10",
+                mainWrapper: "h-full",
+                input: "text-small",
+                inputWrapper: "h-full font-normal text-default-500 bg-default-400/20 dark:bg-default-500/20",
+              }}
+              placeholder="Search"
+              size="sm"
+              startContent={<SearchIcon size={18} />}
+              type="search"
+            />
           </NavbarItem>
           <NavbarItem>
             <ThemeSwitch />
