@@ -1,3 +1,4 @@
+import SecretaryNavbar from '@/components/secretary_navbar';
 import SecretaryLayout from '@/layouts/secretary_layout';
 import { useUser } from '@clerk/clerk-react'
 import { Navigate, Outlet } from 'react-router-dom';
@@ -11,6 +12,7 @@ const SecretaryRoutes = () => {
     return user?.publicMetadata.role == "secretary" ?
         (<div>
             <SecretaryLayout>
+                <SecretaryNavbar />
                 <Outlet />
             </SecretaryLayout>
         </div>

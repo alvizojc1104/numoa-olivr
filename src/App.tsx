@@ -2,32 +2,29 @@ import { Route, Routes } from "react-router-dom";
 
 import IndexPage from "./pages/index";
 import AboutPage from "./pages/about";
-import { SignedIn, useUser } from "@clerk/clerk-react";
+import { useUser } from "@clerk/clerk-react";
 import PageNotFound from "./pages/page-not-found";
 import SignIn from "./pages/sign-in";
 import Unauthorized from "./pages/unauthorized";
 import SecretaryRoutes from "./routes/SecretaryRoutes";
 import CreateAccount from "./pages/secretary/Accounts";
-import SecretaryNavbar from "./components/secretary_navbar";
 import FacultyRoutes from "./routes/FacultyRoutes";
 import FacultyHome from "./pages/faculty/FacultyHome";
 import SecretaryDashboard from "./pages/secretary/Dashboard";
 import { Toaster } from "sonner";
 import MyPatients from "./pages/faculty/Patients";
 import Appointments from "./pages/faculty/Appointments";
+import AttendanceTracker from "./pages/AttendanceTracker";
 
 
 
 function App() {
-  const { isLoaded, user } = useUser();
+  const { isLoaded } = useUser();
 
   if (!isLoaded) return
 
   return (
     <>
-      <SignedIn>
-        {user?.publicMetadata.role == "secretary" ? <SecretaryNavbar /> : null}
-      </SignedIn>
       <Routes>
         {/*Public Routes */}
         <Route element={<IndexPage />} path="/" />
@@ -48,6 +45,8 @@ function App() {
           <Route element={<MyPatients />} path="/faculty/my-patients" />
           <Route element={<Appointments />} path="/faculty/appointments" />
         </Route>
+
+        <Route element={<AttendanceTracker />} path="/attendance-tracker" />
       </Routes>
       <Toaster richColors position="top-center" />
     </>
