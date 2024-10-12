@@ -1,4 +1,5 @@
 export type SiteConfig = typeof siteConfig;
+import { CalendarDays, LayoutDashboard, Users } from "lucide-react";
 
 export const siteConfig = {
   name: "Vite + NextUI",
@@ -46,7 +47,7 @@ export const siteConfig = {
   secretaryNavLinks: [
     {
       label: "Dashboard",
-      href: "/",
+      href: "/secretary/dashboard",
     },
     {
       label: "Accounts",
@@ -83,6 +84,23 @@ export const siteConfig = {
     {
       label: "Activity Log",
       href: "/secretary/activity-log",
+    },
+  ],
+  facultyLinks: [
+    {
+      label: "Dashboard",
+      href: "/faculty/dashboard",
+      icon: LayoutDashboard,
+    },
+    {
+      label: "Patients",
+      href: "/faculty/patients",
+      icon: Users,
+    },
+    {
+      label: "Appointments",
+      href: "/faculty/appointments",
+      icon: CalendarDays,
     },
   ],
 };

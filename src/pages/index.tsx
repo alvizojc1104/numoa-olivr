@@ -1,8 +1,5 @@
 import { useUser } from "@clerk/clerk-react";
-import SecretaryLayout from "../layouts/secretary_layout";
-import SecretaryDashboard from "./secretary/secretary-dashboard";
 import { Navigate } from "react-router-dom";
-import FacultyDashboard from "./faculty/FacultyDashboard";
 
 export default function IndexPage() {
   const { isLoaded, user } = useUser();
@@ -16,10 +13,12 @@ export default function IndexPage() {
     )
   }
 
+  console.log("user",user)
+
   return (
     <div className="container">
-      {user?.publicMetadata.role == "faculty" ? <FacultyDashboard /> :
-        user?.publicMetadata.role == "secretary" ? <SecretaryLayout> <SecretaryDashboard /> </SecretaryLayout> :
+      {user?.publicMetadata.role == "faculty" ? <Navigate to={"/faculty/home"} /> :
+        user?.publicMetadata.role == "secretary" ? <Navigate to={"/secretary/dashboard"} /> :
           <Navigate to={'/sign-in'} />}
     </div>
   )

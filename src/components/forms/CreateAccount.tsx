@@ -10,13 +10,14 @@ import {
     Autocomplete,
     AutocompleteItem,
     DateInput,
+    DatePicker,
 } from "@nextui-org/react";
 import { CopyPlus, PlusIcon } from "lucide-react";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { title } from "../primitives";
 import axios from "axios";
-import { DateValue, getLocalTimeZone } from "@internationalized/date";
+import { DateValue, getLocalTimeZone, parseDate } from "@internationalized/date";
 import { useDateFormatter } from "@react-aria/i18n";
 import { toast } from "sonner";
 
@@ -51,7 +52,7 @@ export default function CreateAccount() {
     const [password, setPassword] = useState<string>("");
     const [, setSelectedGender] = useState<React.Key>("male")
     const [isLoading, setIsLoading] = useState<boolean>(false)
-    const [birthdate, setBirthdate] = React.useState<DateValue>();
+    const [birthdate, setBirthdate] = React.useState<DateValue | null>(null); // Allow null if no date is selected
     const [emailError, setEmailError] = useState("")
     const {
         register,
@@ -72,6 +73,11 @@ export default function CreateAccount() {
         },
     });
     const formatter = useDateFormatter({ dateStyle: "long" });
+
+    const handleDateChange = (newDate: DateValue | null) => {
+        setBirthdate(newDate);
+        setValue("birthdate", newDate);
+    };
 
     const generateStrongPassword = (length: number = 10): string => {
         const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -106,6 +112,7 @@ export default function CreateAccount() {
             .then((response) => {
                 if (response.data.clerkError) {
                     setEmailError(response.data.errors[0].message)
+                    toast.error("Failed to create account.")
                 } else {
                     toast.success("Account created successfully!")
                     onClose()
@@ -200,22 +207,19 @@ export default function CreateAccount() {
 
                                 <div className="flex flex-row gap-4 w-full">
                                     <div className="flex-1">
-                                        <DateInput
-                                            isInvalid={errors.birthdate ? true : false}
-                                            label="Birth Date"
+                                        <DatePicker
+                                            className="max-w-[284px]"
+                                            label="Birthdate"
                                             labelPlacement="outside"
-                                            variant="bordered"
                                             value={birthdate}
-                                            onChange={(date) => {
-                                                setBirthdate(date);
-                                                setValue("birthdate", date);
-                                            }}
+                                            variant="bordered"
+                                            onChange={handleDateChange}
+                                            showMonthAndYearPickers
                                         />
                                         <p className="text-default-500 text-sm">
                                             Selected date: {birthdate ? formatter.format(birthdate.toDate(getLocalTimeZone())) : "--"}
                                         </p>
                                     </div>
-
                                     <div className="flex-1">
                                         <Autocomplete
                                             errorMessage="Gender is required"

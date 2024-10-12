@@ -1,33 +1,28 @@
-import { useEffect, useState } from "react";
+import useSWR from "swr";
 import axios from "axios";
+import { toast } from "sonner";
 
 const BACKEND_API_URL = import.meta.env.VITE_BACKEND_API_URL;
 
-const useUserList = () => {
-  const [userList, setUserList] = useState<Array<object> | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
-  useEffect(() => {
-    const fetchUserList = async () => {
-      try {
-        const response = await axios.get(
-          `${BACKEND_API_URL}/api/get-user-list`
-        );
-        setUserList(response.data.data); // Assuming `data` is the key holding the user list
-        console.log("useUserList: ",response.data);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      } catch (error: any) {
-        setError(error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
+const useUserList = (page: number) => {
+  const { data, error } = useSWR(
+    `${BACKEND_API_URL}/api/get-user-list?page=${page}`,
+    fetcher,
+    { keepPreviousData: true }
+  );
 
-    fetchUserList();
-  }, []);
+  if (error) {
+    toast.error("Error");
+  }
 
-  return { userList, loading, error };
+  return {
+    users: data ? data.users : [],
+    totalCount: data ? data.totalCount : 0,
+    loading: !data && !error,
+    error,
+  };
 };
 
 export { useUserList };

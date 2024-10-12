@@ -5,6 +5,7 @@ import clsx from "clsx";
 
 import { useTheme } from "../hooks/use-theme";
 import { SunFilledIcon, MoonFilledIcon } from "../components/icons";
+import { Tooltip } from "@nextui-org/react";
 
 export interface ThemeSwitchProps {
   className?: string;
@@ -73,9 +74,17 @@ export const ThemeSwitch: FC<ThemeSwitchProps> = ({
         })}
       >
         {isSelected ? (
-          <MoonFilledIcon size={22} />
+          <Tooltip content="Dark Mode">
+            <div>
+              <MoonFilledIcon size={22} />
+            </div>
+          </Tooltip>
         ) : (
-          <SunFilledIcon size={22} />
+          <Tooltip content="Light Mode">
+            <div>
+              <SunFilledIcon size={22} />
+            </div>
+          </Tooltip>
         )}
       </div>
     </Component>

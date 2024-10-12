@@ -6,6 +6,7 @@ import { useState } from "react";
 import { SignedIn, useSignIn } from "@clerk/clerk-react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { EyeFilledIcon, EyeSlashFilledIcon } from "@/components/icons";
 
 interface Account {
     emailAddress: string,
@@ -22,6 +23,10 @@ const SignIn = () => {
     const [loading, setLoading] = useState<boolean>(false)
     const { isLoaded, signIn, setActive } = useSignIn();
     const navigate = useNavigate();
+
+    const [isVisible, setIsVisible] = useState(false);
+
+    const toggleVisibility = () => setIsVisible(!isVisible);
 
     if (!isLoaded) return <div></div>
 
@@ -73,6 +78,7 @@ const SignIn = () => {
                                     label="Email"
                                     size="sm"
                                     variant="flat"
+                                    start
                                     type="email"
                                     {...register("emailAddress", {
                                         required: "Email is required",
@@ -92,10 +98,19 @@ const SignIn = () => {
                                     label="Password"
                                     size="sm"
                                     variant="flat"
-                                    type="password"
+                                    type={isVisible ? "text" : "password"}
                                     {...register("password", {
                                         required: "Password is required"
                                     })}
+                                    endContent={
+                                        <button className="focus:outline-none" type="button" onClick={toggleVisibility} aria-label="toggle password visibility">
+                                            {isVisible ? (
+                                                <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                                            ) : (
+                                                <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                                            )}
+                                        </button>
+                                    }
                                 />
                                 {errors.password && <p className="text-red-600 text-xs">{errors.password.message}</p>}
                             </div>

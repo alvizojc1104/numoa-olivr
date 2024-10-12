@@ -7,23 +7,26 @@ import PageNotFound from "./pages/page-not-found";
 import SignIn from "./pages/sign-in";
 import Unauthorized from "./pages/unauthorized";
 import SecretaryRoutes from "./routes/SecretaryRoutes";
-import CreateAccount from "./pages/secretary/create-account";
+import CreateAccount from "./pages/secretary/Accounts";
 import SecretaryNavbar from "./components/secretary_navbar";
 import FacultyRoutes from "./routes/FacultyRoutes";
-import FacultyDashboard from "./pages/faculty/FacultyDashboard";
+import FacultyHome from "./pages/faculty/FacultyHome";
+import SecretaryDashboard from "./pages/secretary/Dashboard";
 import { Toaster } from "sonner";
+import MyPatients from "./pages/faculty/Patients";
+import Appointments from "./pages/faculty/Appointments";
 
 
 
 function App() {
-  const { isLoaded, } = useUser();
+  const { isLoaded, user } = useUser();
 
   if (!isLoaded) return
 
   return (
     <>
       <SignedIn>
-        <SecretaryNavbar />
+        {user?.publicMetadata.role == "secretary" ? <SecretaryNavbar /> : null}
       </SignedIn>
       <Routes>
         {/*Public Routes */}
@@ -35,15 +38,18 @@ function App() {
 
         {/* Secretary routes */}
         <Route element={<SecretaryRoutes />}>
+          <Route element={<SecretaryDashboard />} path="/secretary/dashboard" />
           <Route element={<CreateAccount />} path="/secretary/accounts" />
         </Route>
 
         {/* Doctor routes */}
         <Route element={<FacultyRoutes />}>
-          <Route element={<FacultyDashboard />} path="/faculty" />
+          <Route element={<FacultyHome />} path="/faculty/home" />
+          <Route element={<MyPatients />} path="/faculty/my-patients" />
+          <Route element={<Appointments />} path="/faculty/appointments" />
         </Route>
       </Routes>
-      <Toaster richColors position="top-center"/>
+      <Toaster richColors position="top-center" />
     </>
   );
 }
