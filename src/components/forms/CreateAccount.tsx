@@ -42,7 +42,8 @@ interface AccountRequirements {
     lastName: string;
     birthdate: Date | DateValue | null
     gender: string;
-    role: string
+    role: string;
+    id_number: string
 }
 
 export default function CreateAccount() {
@@ -68,7 +69,8 @@ export default function CreateAccount() {
             lastName: "",
             birthdate: null,
             gender: "",
-            role: ""
+            role: "",
+            id_number: ""
         },
     });
     const formatter = useDateFormatter({ dateStyle: "long" });
@@ -95,6 +97,7 @@ export default function CreateAccount() {
     };
 
     const onCreateAccount = async (data: AccountRequirements) => {
+        console.log(data)
         if (birthdate) {
             const dateObject = birthdate.toDate(getLocalTimeZone());
             data.birthdate = dateObject; // Assign the converted date to the form data
@@ -141,7 +144,7 @@ export default function CreateAccount() {
                         </ModalHeader>
                         <form onSubmit={handleSubmit(onCreateAccount)}>
                             <ModalBody className="flex flex-col gap-8">
-                                <div className="flex-1">
+                                <div className="flex flex-1 gap-4 flex-row w-full">
                                     <Autocomplete
                                         errorMessage={errors.role?.message}
                                         isInvalid={errors.role ? true : false}
@@ -165,6 +168,17 @@ export default function CreateAccount() {
                                             </AutocompleteItem>
                                         )}
                                     </Autocomplete>
+                                    <Input
+                                        errorMessage={"ID Number is required"}
+                                        label="ID Number"
+                                        labelPlacement="outside"
+                                        placeholder="Enter ID number"
+                                        variant="bordered"
+                                        isInvalid={errors.firstName ? true : false}
+                                        {...register("id_number", {
+                                            required: "ID Number is required",
+                                        })}
+                                    />
                                 </div>
                                 <div className="flex flex-row gap-4 w-full">
                                     <div className="flex-1">
