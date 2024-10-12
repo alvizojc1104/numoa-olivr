@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useUserList } from '@/hooks/userList';
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Pagination, Skeleton, User, Button, Input, useDisclosure, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Avatar, DateInput, Autocomplete, AutocompleteItem, Tooltip, Popover, PopoverTrigger, PopoverContent } from "@nextui-org/react";
 import { accountColumns } from "@/config/data";
@@ -12,7 +12,7 @@ import { Calendar, GitPullRequestCreateArrow, Phone } from 'lucide-react';
 import { DotLoaderOverlay } from "react-spinner-overlay";
 import { toast } from 'sonner';
 import { useForm } from 'react-hook-form';
-import { CalendarDate, DateValue, getLocalTimeZone, parseDate, } from '@internationalized/date';
+import { DateValue, getLocalTimeZone, parseDate, } from '@internationalized/date';
 import { useUser } from '@clerk/clerk-react';
 
 const BACKEND_API = import.meta.env.VITE_BACKEND_API_URL;
@@ -60,6 +60,7 @@ const AccountTables = () => {
         city_municipality: userObject.address.city_municipality,
         province: userObject.address.province,
         zip_code: userObject.address.zip_code,
+        birthdate: parseDate(moment(userObject.birthdate).format("YYYY-MM-DD")),
       });
       setBirthdate(parseDate(moment(userObject.birthdate).format("YYYY-MM-DD"))); // Convert to CalendarDate
       onOpen(); // Open the modal
@@ -100,9 +101,7 @@ const AccountTables = () => {
       const response = await axios.delete(`${BACKEND_API}/api/delete/account/${deleter_user_id}/${user_id}`)
       toast.success(response.data.message)
       onClose()
-      setTimeout(() => {
-        setIsSaving(false)
-      }, 2000);
+      setIsSaving(false); // No need for setTimeout
     } catch (error) {
       console.log(error)
       toast.error("Error")
@@ -110,9 +109,9 @@ const AccountTables = () => {
     }
   }
   const handleCancel = () => {
-    setEditable(!editable)//Disable editing
-    clearErrors(); // Clears all errors
-    reset(); // Optionally reset the form to its initial state if needed
+    setEditable(!editable); // Disable editing
+    clearErrors();
+    reset(selectedUser); // Optionally reset to last fetched user state
   };
 
   const renderCell = useCallback((user: User, columnKey: Key) => {
@@ -222,11 +221,15 @@ const AccountTables = () => {
               </TableColumn>
             )}
           </TableHeader>
+          {/* // eslint-disable-next-line */}
           <TableBody emptyContent={"No rows to display."} items={filteredUsers}>
-            {(item) => (
-              <TableRow key={item?.name}>
-                {(columnKey) => (<TableCell>{renderCell(item, columnKey)}</TableCell>)}
+            {(items: { name: string }) => (
+              <TableRow key={items?.name}>
+                {(columnKey: React.Key) => (
+                  <TableCell>{renderCell(items, columnKey as import("swr").Key)}</TableCell>
+                )}
               </TableRow>
+
             )}
           </TableBody>
         </Table>
@@ -273,7 +276,7 @@ const AccountTables = () => {
                       })}
                     >
                       {(item) => (
-                        <AutocompleteItem key={item.value}>
+                        <AutocompleteItem key={item.key}>
                           {item.label}
                         </AutocompleteItem>
                       )}

@@ -78,7 +78,6 @@ const SignIn = () => {
                                     label="Email"
                                     size="sm"
                                     variant="flat"
-                                    start
                                     type="email"
                                     {...register("emailAddress", {
                                         required: "Email is required",

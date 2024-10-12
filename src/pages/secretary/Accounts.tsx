@@ -1,5 +1,4 @@
 import { title } from '@/components/primitives';
-import SecretaryLayout from '@/layouts/secretary_layout';
 import { Card, CardBody, CardHeader } from '@nextui-org/react';
 import { Users } from 'lucide-react';
 import AccountsTable from '@/components/tables/AccountTables';

@@ -9,7 +9,6 @@ import {
     Input,
     Autocomplete,
     AutocompleteItem,
-    DateInput,
     DatePicker,
 } from "@nextui-org/react";
 import { CopyPlus, PlusIcon } from "lucide-react";
@@ -17,7 +16,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { title } from "../primitives";
 import axios from "axios";
-import { DateValue, getLocalTimeZone, parseDate } from "@internationalized/date";
+import { DateValue, getLocalTimeZone } from "@internationalized/date";
 import { useDateFormatter } from "@react-aria/i18n";
 import { toast } from "sonner";
 
