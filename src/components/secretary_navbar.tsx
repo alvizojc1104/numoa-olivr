@@ -36,7 +36,7 @@ export default function SecretaryNavbar() {
         {/* Navbar Brand on the left */}
         <NavbarBrand className="max-w-fit flex items-center gap-2">
           <Logo />
-          <p className="font-bold text-inherit">NUOLIVR</p>
+          <p className="font-bold text-inherit">NU Vision</p>
         </NavbarBrand>
         {/* ThemeSwitch on the right side */}
         <NavbarContent as="div" justify="end">

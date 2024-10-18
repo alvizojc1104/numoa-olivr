@@ -19,6 +19,7 @@ export default function IndexPage() {
     <div className="container">
       {user?.publicMetadata.role == "faculty" ? <Navigate to={"/faculty/home"} /> :
         user?.publicMetadata.role == "secretary" ? <Navigate to={"/secretary/dashboard"} /> :
+        user?.publicMetadata.role == "student" ? <Navigate to={"/unauthorized"} /> :
           <Navigate to={'/sign-in'} />}
     </div>
   )

@@ -91,7 +91,7 @@ const AttendanceTracker = () => {
                         </p>
                         <div className="flex flex-col justify-center items-center gap-1 my-4">
                             <h2 className="font-bold text-lg text-center text-gray-800">Time Out</h2>
-                            <QRCode value={JSON.stringify({ url: timeInURL, accessToken: uuid })} size={300} />
+                            <QRCode value={JSON.stringify({ url: timeOutURL, accessToken: uuid })} size={300} />
                         </div>
                         <h2 className="font-normal text-xs text-center text-gray-800 mb-6">Use NU Vision app to scan the QR Code.</h2>
 

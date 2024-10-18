@@ -46,7 +46,7 @@ export default function FacultyNavbar() {
         {/* Navbar Brand on the left */}
         <NavbarBrand className="max-w-fit flex items-center gap-2">
           <Logo />
-          <p className="font-bold text-inherit">NUOLIVR Faculty</p>
+          <p className="font-bold text-inherit">NU Vision</p>
         </NavbarBrand>
 
         {/* Right Side Content */}

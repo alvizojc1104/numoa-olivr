@@ -17,15 +17,28 @@ import { siteConfig } from "../config/site";
 import { ThemeSwitch } from "../components/theme-switch";
 import { SearchIcon } from "../components/icons";
 import { Logo } from "../components/icons";
-import { SignedIn, useAuth, UserButton } from "@clerk/clerk-react";
+import { SignedIn, useAuth, useUser } from "@clerk/clerk-react";
 import { useLocation } from "react-router-dom";
+import { Avatar, Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Tooltip, useDisclosure } from "@nextui-org/react";
 
 export const Navbar = () => {
-  const { isLoaded } = useAuth();
+  const { isLoaded, signOut } = useAuth();
   const location = useLocation()
+  const { user } = useUser()
 
-  //Load clerk
-  if (!isLoaded) return;
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
+
+  if (!isLoaded || !user) return null;
+
+  const onLogout = async () => {
+    try {
+      await signOut();
+    } catch (error) {
+      console.error("Error during logout:", error);
+    }
+  };
+
 
   const searchInput = (
     <Input
@@ -58,7 +71,7 @@ export const Navbar = () => {
             href="/"
           >
             <Logo />
-            <p className="font-bold text-inherit">NU OLIVR</p>
+            <p className="font-bold text-inherit">NU Vision</p>
           </Link>
         </NavbarBrand>
       </NavbarContent>
@@ -86,7 +99,31 @@ export const Navbar = () => {
         <NavbarItem className="hidden sm:flex gap-2">
           <ThemeSwitch />
           <SignedIn>
-            <UserButton />
+            <Tooltip content={user.primaryEmailAddress?.emailAddress}>
+              <div>
+                <Dropdown placement="bottom-end">
+                  <DropdownTrigger>
+                    <Avatar
+                      as="button"
+                      className="transition-transform"
+                      color="primary"
+                      name={user?.fullName || ""}
+                      size="sm"
+                      src={user?.imageUrl}
+                    />
+                  </DropdownTrigger>
+                  <DropdownMenu aria-label="Profile Actions" variant="flat">
+                    <DropdownItem key="profile" className="h-14 gap-2" isReadOnly>
+                      <p>Signed in as</p>
+                      <p className="font-semibold">{user.primaryEmailAddress?.emailAddress}</p>
+                    </DropdownItem>
+                    <DropdownItem key="logout" color="danger" onPress={onOpen}>
+                      Log Out
+                    </DropdownItem>
+                  </DropdownMenu>
+                </Dropdown>
+              </div>
+            </Tooltip>
           </SignedIn>
         </NavbarItem>
       </NavbarContent>
@@ -118,6 +155,28 @@ export const Navbar = () => {
           ))}
         </div>
       </NavbarMenu>
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader>
+                Logout
+              </ModalHeader>
+              <ModalBody>
+                <p>Are you sure you want to logout?</p>
+              </ModalBody>
+              <ModalFooter>
+                <Button color="danger" variant="light" onPress={onClose}>
+                  Close
+                </Button>
+                <Button color="primary" onPress={onLogout}>
+                  Log Out
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
     </NextUINavbar>
   );
 };
