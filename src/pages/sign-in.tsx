@@ -68,7 +68,7 @@ const SignIn = () => {
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <Card className="flex flex-col px-6 py-8 min-w-[350px] max-w-[450px]">
                         <CardHeader className="flex flex-col items-start">
-                            <h1 className={title({ size: "sm" })}>NU OLIVR</h1>
+                            <h1 className={title({ size: "sm" })}>NU Vision</h1>
                             <p className="text-sm">Login to continue.</p>
                         </CardHeader>
                         <CardBody className="gap-3">
