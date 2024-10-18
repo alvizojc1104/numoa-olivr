@@ -37,6 +37,7 @@ function App() {
         <Route element={<SecretaryRoutes />}>
           <Route element={<SecretaryDashboard />} path="/secretary/dashboard" />
           <Route element={<CreateAccount />} path="/secretary/accounts" />
+          <Route element={<AttendanceTracker />} path="/attendance" />
         </Route>
 
         {/* Doctor routes */}
@@ -46,7 +47,6 @@ function App() {
           <Route element={<Appointments />} path="/faculty/appointments" />
         </Route>
 
-        <Route element={<AttendanceTracker />} path="/attendance" />
       </Routes>
       <Toaster richColors position="top-center" />
     </>
