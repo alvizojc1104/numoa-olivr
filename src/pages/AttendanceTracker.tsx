@@ -3,6 +3,7 @@ import { Button, Card, Input } from "@nextui-org/react";
 import QRCode from "react-qr-code";
 import moment from "moment";
 import { Lock, Mail } from "lucide-react";
+import { v4 as uuidv4 } from 'uuid';
 
 const timeInURL = import.meta.env.VITE_TIME_IN_URL
 const timeOutURL = import.meta.env.VITE_TIME_OUT_URL
@@ -11,7 +12,7 @@ const AttendanceTracker = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [inOrOut, setInOrOut] = useState(false);
-    const uuid = crypto.randomUUID();
+    const uuid = uuidv4()
 
     useEffect(() => {
         const ws = new WebSocket("ws://localhost:3000"); // Update with your server data
