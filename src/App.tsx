@@ -46,7 +46,7 @@ function App() {
           <Route element={<Appointments />} path="/faculty/appointments" />
         </Route>
 
-        <Route element={<AttendanceTracker />} path="/attendance-tracker" />
+        <Route element={<AttendanceTracker />} path="/attendance" />
       </Routes>
       <Toaster richColors position="top-center" />
     </>
